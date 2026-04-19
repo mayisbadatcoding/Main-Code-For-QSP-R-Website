@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Access Granted</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: white;
+  font-family: Arial, sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+
+#message {
+  position: absolute;   /* IMPORTANT */
+  text-align: center;
+  max-width: 600px;
+
+  opacity: 0;
+  transition: opacity 1s ease;
+
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+#message.show {
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div id="message">
+  <h1>Access Granted</h1>
+  <p>
+    Congratulations! You’d be great to help out with code...<br><br>
+    (Partially kidding, just DM <b>ope674c</b> anyway)<br><br>
+    Also I went insane doing this... more will be added to this soon for y’all!
+  </p>
+</div>
+
+<script>
+// CONFETTI (simple version)
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let confetti = [];
+
+for (let i = 0; i < 150; i++) {
+  confetti.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height - canvas.height,
+    r: Math.random() * 6 + 2,
+    d: Math.random() * 50,
+    color: `hsl(${Math.random()*360},100%,50%)`,
+    tilt: Math.random() * 10 - 10
+  });
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  confetti.forEach(c => {
+    ctx.beginPath();
+    ctx.fillStyle = c.color;
+    ctx.fillRect(c.x, c.y, c.r, c.r);
+  });
+
+  update();
+}
+
+function update() {
+  confetti.forEach(c => {
+    c.y += 3;
+    c.x += Math.sin(c.d);
+
+    if (c.y > canvas.height) {
+      c.y = -10;
+      c.x = Math.random() * canvas.width;
+    }
+  });
+}
+
+let interval = setInterval(draw, 20);
+
+// Stop confetti after 3 seconds
+setTimeout(() => {
+  clearInterval(interval);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Show message
+  document.getElementById("message").classList.add("show");
+
+}, 3000);
+</script>
+
+</body>
+</html>

@@ -18,15 +18,15 @@
         <div class="site-wrapper">
             <div class="site-main">
                 <div class="inner">
-                    <p id="text08" class="text-component instance-8 style-4">You are on the... huh? What is this-... meow meow meow meow page.</p>
+                    <p id="text08" class="text-component instance-8 style-4">I wonder which page this is...</p>
 					<ul>
  
                     		
-<li><a href="/index">Home</a></li>
-  <li><a href="/team">Team</a></li>
-  <li><a href="/secondaryradio">S-Radio</a></li>
-  <li><a href="/helpers">Helpers</a></li>
-    <li><a href="/about">About</a></li>
+ <li><a href="index.html">Home</a></li>
+  <li><a href="team.html">Team</a></li>
+  <li><a href="part6.html">S-Radio</a></li>
+  <li><a href="helpers.html">Helpers</a></li>
+    <li><a href="about.html">About</a></li>
 
 </ul>
                     <div id="container02" class="container-component instance-2 style-2 columns">
@@ -37,11 +37,43 @@
 									</div>
 								</div>
 								<div>
-									<h2 id="text03" class="text-component instance-3 style-3">Meow...?</h2>
-									<p id="text06" class="text-component instance-6 style-4">Mraowwwww... marowwwww.. mreowwwww... mraowwwwww.. Also if you found this you WERE searching for it.</p>
+									<h2 id="text03" class="text-component instance-3 style-3">Welcome. You've been searching for us.</h2>
+									<p id="text06" class="text-component instance-6 style-4">However.. you need to write a code to get in. Simple, basic. So just put it in! Heres your information, you are writing a simple navigation bar, nothing fancy, a extrememly basic code. Your main page should be known as home, the file for it is index.html. Your second page is known as support, the file for it is contact.html. Your third page should be known as staff, the file for it is team.html. Get writing.</p>
 								
 								</div>
 							</div>
+                             <textarea id="codeInput" placeholder="Type or paste the code here..."></textarea>
+  <br>
+  <button onclick="checkCode()">Submit</button>
+</div>
+
+<script>
+function normalize(str) {
+  return str
+    .replace(/\s+/g, '')   
+    .trim()
+    .toLowerCase();
+}
+
+function checkCode() {
+  const userInput = document.getElementById("codeInput").value;
+
+  const correctCode = `
+<li><a href="index.html">Home</a></li>
+<li><a href="contact.html">Support</a></li>
+<li><a href="team.html">Staff</a></li>
+`;
+
+  if (normalize(userInput) === normalize(correctCode)) {
+    window.location.href = "/access-granted"; // next page
+  } else {
+    alert("Incorrect code. Try again.");
+    document.getElementById("codeInput").value = "";
+  }
+}
+</script>
+
+</body>
 						</div>
 					</div>
                 </div>
