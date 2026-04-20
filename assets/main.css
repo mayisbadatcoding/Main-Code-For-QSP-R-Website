@@ -1,25 +1,40 @@
 
 :root {
-    --bg: #6e5aa6;
-    --card: #dcdcdc;
-    --text: #000;
-    --accent: #6e5aa6;
+    --card: rgba(255, 255, 255, 0.92);
+    --text: #111;
+    --accent: #7c6cff;
+    --bg-overlay: rgba(255, 255, 255, 0.35);
 }
 
 [data-theme="dark"] {
-    --bg: #121212;
-    --card: #1e1e1e;
+    --card: rgba(30, 41, 59, 0.85);
     --text: #ffffff;
-    --accent: #8b7cff;
+    --accent: #8b5cf6;
+    --bg-overlay: rgba(10, 15, 30, 0.35);
 }
+
+[data-theme="dark"] {
+    --bg-overlay: rgba(10, 15, 30, 0.75);
+}
+
+[data-theme="dark"] header {
+    background: rgba(30, 41, 59, 0.75);
+}
+
 /* HEADER */
 header {
-    background: #dcdcdc;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.2);
+
     border-radius: 20px;
-    margin: 20px;
-    padding: 20px;
+    margin: 20px auto;
+    padding: 30px 20px;
+    max-width: 1100px;
+
     position: relative;
-    text-align: center;
 }
 
 .tagline {
@@ -55,21 +70,39 @@ nav a:hover {
 
 /* MAIN CONTENT */
 main {
-    margin: 20px;
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 0 20px;
 }
 
 /* CARD SYSTEM */
 .card {
-    background: #dcdcdc;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+
     border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 20px;
+    padding: 25px;
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.15),
+        0 20px 50px rgba(0,0,0,0.25);
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.25),
+        0 30px 70px rgba(0,0,0,0.35);
 }
 
 /* GRID (for side-by-side sections) */
 .grid {
     display: flex;
-    gap: 20px;
+    gap: 30px;
 }
 
 .grid .card {
@@ -77,17 +110,25 @@ main {
 }
 
 /* BUTTON */
-button, .btn {
-    padding: 10px 15px;
-    border-radius: 10px;
+.btn, button {
+    padding: 10px 18px;
+    border-radius: 12px;
     border: none;
     background: var(--accent);
     color: white;
+    font-weight: bold;
     cursor: pointer;
+
+    transition: transform 0.1s ease, opacity 0.2s ease;
 }
 
-button:hover, .btn:hover {
-    opacity: 0.8;
+.btn:hover, button:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.btn, #themeToggle {
+    box-shadow: 0 0 12px rgba(124, 108, 255, 0.4);
 }
 
 /* FOOTER */
@@ -100,8 +141,7 @@ footer {
 
 /* DISABLED LINK */
 .disabled {
-    color: gray;
-    pointer-events: none;
+    color: var(--text);
     text-decoration: none;
 }
 form {
@@ -121,14 +161,150 @@ textarea {
     min-height: 120px;
 }
 body {
-    background: var(--bg);
     color: var(--text);
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+
+    background-image: url("../media/light-bg.jpg");
+    background-size: cover;
+    background-position: center;
+
+    filter: blur(1px) brightness(0.95);
+    transform: scale(1.05); /* prevents edge clipping from blur */
+}
+
+
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+
+    background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.4),
+        rgba(255,255,255,0.6)
+    );
 }
 
 header, .card, footer {
     background: var(--card);
+    backdrop-filter: blur(10px);
 }
 
 nav a {
     color: var(--text);
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    margin-bottom: 10px;
+}
+
+p {
+    opacity: 0.9;
+}
+
+.iframe-container {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+#themeToggle {
+    position: absolute;
+    top: 20px;
+    right: 120px; /* leaves space for logo */
+
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+
+[data-theme="dark"] body::before {
+    background-image: url("../media/dark-bg.jpg");
+    filter: blur(8px) brightness(0.6);
+}
+
+[data-theme="dark"] body::after {
+    background: linear-gradient(
+        to bottom,
+        rgba(10,15,30,0.4),
+        rgba(10,15,30,0.7)
+    );
+}
+
+[data-theme="dark"] .card {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(14px);
+}
+
+body {
+    cursor: url("../media/cursor.png") 4 4, auto;
+}
+
+a, button, .btn, [role="button"] {
+    cursor: url("../media/cursor-pointer.png") 12 2, pointer !important;
+}
+
+input, textarea {
+    cursor: url("../media/pencil-cursor.png") 2 28, text;
+}
+
+footer a {
+    color: var(--text);
+    opacity: 0.7;
+    text-decoration: none;
+}
+
+footer a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.privacy-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-width: 300px;
+
+    background: var(--card);
+    backdrop-filter: blur(12px);
+
+    padding: 15px;
+    border-radius: 15px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+
+    z-index: 999;
+}
+
+.privacy-popup p {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.privacy-popup button {
+    width: 100%;
+}
+
+.hidden {
+    display: none;
 }
