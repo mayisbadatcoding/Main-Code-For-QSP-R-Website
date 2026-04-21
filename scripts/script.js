@@ -74,3 +74,21 @@ filterButtons.forEach(btn => {
         });
     });
 });
+
+const player = document.getElementById("radioPlayer");
+const playBtn = document.getElementById("playBtn");
+const volume = document.getElementById("volume");
+
+playBtn.onclick = () => {
+    if (player.paused) {
+        player.play();
+        playBtn.textContent = "⏸";
+    } else {
+        player.pause();
+        playBtn.textContent = "▶";
+    }
+};
+
+volume.oninput = () => {
+    player.volume = volume.value;
+};

@@ -28,43 +28,85 @@
 </header>
 
 <main>
-    <!-- PAGE CONTENT GOES HERE -->
-	 <div class="grid">
-    <div class="card">
-        <h3>Now Presenting</h3>
-		<!--current show information goes here.. new presenter? create a jpg image file in media-->
-        <p>AutoDJ</p>
-        <p>AutoDJ bringing you constant music, 24/7!</p>
-        <img src="media/image02.jpg" width="100">
-    </div>
-<div class="card">
-    <h3>Live Radio</h3>
 
-<iframe width="450" height="316" frameborder="0" src="https://live365.com/embeds/v1/player/a59069?s=md&m=dark&c=mp3"></iframe>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-left">
+        <h1>Everyday music, straight to your ears!</h1>
+        <p>Streaming nonstop music, powered by Quantum Science Public Radio.</p>
+        <div class="hero-buttons">
+            <a class="btn" href="findme.html" target="_blank">Click Me?</a>
+            <a class="btn secondary" href="team.html">Meet the Team</a>
+        </div>
     </div>
+
+    <div class="hero-right">
+      <div class="card player-card">
+    <h3>Now Playing</h3>
+
+<div class="now-playing-card">
+
+    <img src="media/image02.jpg" class="song-cover">
+
+    <div class="song-info">
+        <h3>Live Radio</h3>
+        <p>Quantum Science Public Radio</p>
+
+        <div class="controls">
+            <button id="playBtn">▶</button>
+            <input type="range" id="volume" min="0" max="1" step="0.01">
+            
+        </div>
+    </div>
+
 </div>
+</div>
+</section>
 
-<div class="card">
+
+<!-- MAIN GRID -->
+<section class="home-grid">
+
+    <!-- LEFT COLUMN -->
+    <div class="left-column">
+
+        <div class="card">
+            <h3>Now Presenting</h3>
+            <p>AutoDJ</p>
+            <p>AutoDJ bringing you constant music, 24/7!</p>
+            <img src="media/image02.jpg" width="100">
+        </div>
+
+<div class="recently-played-card">
     <h3>Recently Played</h3>
 
-  <iframe width="300" height="614" frameborder="0" src="https://live365.com/embeds/v1/played/a59069?s=sm&m=dark"></iframe>
-
-</div>
-<div class="card">
-    <h3>Join Us</h3>
-
-    <a class="btn" href="https://discord.gg/37xPQp2Wrc" target="_blank">
-        Join Discord
-    </a>
-</div>
-
-    <div class="card">
-        <h3>Coming Up Next</h3>
-		<!--enter coming up show information here-->
-        <p></p>
-        <p></p>
+    <div class="iframe-wrap tall">
+        <iframe 
+            src="https://live365.com/embeds/v1/played/a59069?s=sm&m=dark">
+        </iframe>
     </div>
 </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="right-column">
+
+        <div class="card">
+            <h3>Coming Up Next</h3>
+            <p>Stay tuned for upcoming shows and presenters.</p>
+        </div>
+
+        <div class="card">
+            <h3>Join Us</h3>
+            <p>Be part of the community and connect with listeners.</p>
+            <a class="btn" href="https://discord.gg/37xPQp2Wrc" target="_blank">
+                Join Discord
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
 </main>
 
 <footer>
@@ -73,6 +115,7 @@
 
    <a href="privacy.html">Privacy Policy</a>
 </footer>
+
 <script src="scripts/script.js"></script>
 <script type="module" src="scripts/speed-insights.js"></script>
 </body>

@@ -77,7 +77,7 @@ main {
 
 /* CARD SYSTEM */
 .card {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(30, 40, 60, 0.6);
     backdrop-filter: blur(12px);
 
     border-radius: 20px;
@@ -88,7 +88,7 @@ main {
         0 10px 25px rgba(0,0,0,0.15),
         0 20px 50px rgba(0,0,0,0.25);
 
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .card:hover {
@@ -163,6 +163,7 @@ textarea {
 body {
     color: var(--text);
 	font-family: 'Parkinsans', monospace;
+    position: relative;
 }
 
 body::before {
@@ -177,21 +178,6 @@ body::before {
 
     filter: blur(1px) brightness(0.95);
     transform: scale(1.05); /* prevents edge clipping from blur */
-}
-
-
-
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-
-    background: linear-gradient(
-        to bottom,
-        rgba(255,255,255,0.4),
-        rgba(255,255,255,0.6)
-    );
 }
 
 header, .card, footer {
@@ -225,7 +211,7 @@ p {
 #themeToggle {
     position: absolute;
     top: 20px;
-    right: 120px; /* leaves space for logo */
+    right: 120px;
 
     background: var(--accent);
     color: white;
@@ -547,4 +533,164 @@ background: rgba(255,255,255,0.85);
 .nav-logo {
     width: 40px;
     border-radius: 10px;
+}
+/* HERO */
+.hero {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin: 40px auto;
+    max-width: 1100px;
+    padding: 0 20px;
+}
+
+.hero-left {
+    flex: 1;
+}
+
+.hero-left h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.hero-left p {
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn.secondary {
+    background: transparent;
+    border: 1px solid var(--accent);
+}
+
+
+/* PLAYER SIDE */
+.hero-right {
+    flex: 1;
+}
+
+
+/* GRID */
+.home-grid {
+    display: flex;
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.left-column,
+.right-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+.hero-bg {
+    width: 100%;
+    border-radius: 20px;
+    opacity: 0.3;
+}
+.iframe-wrap {
+    width: 100%;
+    height: 260px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.iframe-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.iframe-wrap.tall {
+    height: 400px;
+}
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background:
+        radial-gradient(circle at 80% 20%, rgba(124,108,255,0.25), transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(255,0,150,0.15), transparent 50%);
+
+    animation: glowMove 20s infinite alternate ease-in-out;
+}
+@keyframes glowMove {
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+    100% {
+        transform: scale(1.05) translate(-20px, 20px);
+    }
+}
+
+.now-playing-card {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    background: linear-gradient(135deg, #1e293b, #111827);
+    backdrop-filter: blur(16px);
+
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.song-cover {
+    width: 120px;
+    height: 120px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.song-info {
+    flex: 1;
+}
+
+.song-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.song-artist {
+    opacity: 0.7;
+    margin-bottom: 10px;
+}
+
+.player-controls iframe {
+    width: 100%;
+    height: 120px; 
+    border: none;
+    border-radius: 12px;
+
+    overflow: hidden;
+}
+.recently-played-card {
+    background: rgba(20, 25, 40, 0.8);
+    backdrop-filter: blur(16px);
+
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.iframe-wrap.tall {
+    height: 350px;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.player-controls {
+    background: rgba(0,0,0,0.25);
+    border-radius: 12px;
+    padding: 10px;
 }
