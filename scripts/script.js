@@ -92,3 +92,37 @@ playBtn.onclick = () => {
 volume.oninput = () => {
     player.volume = volume.value;
 };
+
+async function getArtwork(title, artist) {
+    try {
+        const res = await fetch(
+            `https://itunes.apple.com/search?term=${encodeURIComponent(artist + " " + title)}&limit=1`
+        );
+        const data = await res.json();
+
+        if (data.results && data.results.length > 0) {
+            return data.results[0].artworkUrl100.replace("100x100", "300x300");
+        }
+    } catch {}
+
+    return "media/image02.jpg";
+}
+
+async function updateNowPlaying() {
+    try {
+        const res = await fetch("/api/nowplaying");
+        const data = await res.json();
+
+        document.getElementById("np-title").textContent = data.title;
+        document.getElementById("np-artist").textContent = data.artist;
+
+        const art = await getArtwork(data.title, data.artist);
+        document.getElementById("np-art").src = art;
+
+    } catch {
+        console.log("Now playing failed");
+    }
+}
+
+setInterval(updateNowPlaying, 10000);
+updateNowPlaying();

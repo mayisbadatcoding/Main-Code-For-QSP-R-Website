@@ -1,9 +1,7 @@
 export default async function handler(req, res) {
     try {
         const response = await fetch("https://streaming.live365.com/a59069", {
-            headers: {
-                "Icy-MetaData": "1"
-            }
+            headers: { "Icy-MetaData": "1" }
         });
 
         const reader = response.body.getReader();
@@ -24,7 +22,7 @@ export default async function handler(req, res) {
 
         res.status(200).json({ title, artist });
 
-    } catch (err) {
+    } catch {
         res.status(500).json({ error: "ICY metadata failed" });
     }
 }
