@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Quantum Science Public Radio</title>
+
     <link rel="stylesheet" href="assets/main.css">
-	<link href="https://fonts.googleapis.com/css2?family=Parkinsans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Parkinsans&display=swap" rel="stylesheet">
+
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head>
+
 <body>
 
 <header class="navbar">
@@ -29,96 +32,108 @@
 
 <main>
 
-<!-- HERO -->
-<section class="hero">
-    <div class="hero-left">
-        <h1>Everyday music, straight to your ears!</h1>
-        <p>Streaming nonstop music, powered by Quantum Science Public Radio.</p>
-        <div class="hero-buttons">
-            <a class="btn" href="findme.html" target="_blank">Click Me?</a>
-            <a class="btn secondary" href="team.html">Meet the Team</a>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-left">
+            <h1>Everyday music, straight to your ears!</h1>
+            <p>Streaming nonstop music, powered by Quantum Science Public Radio.</p>
+
+            <div class="hero-buttons">
+                <a class="btn" href="findme.html" target="_blank">Click Me?</a>
+                <a class="btn secondary" href="team.html">Meet the Team</a>
+            </div>
         </div>
-    </div>
 
-    <div class="hero-right">
-    <div class="card player-card">
-    <h3>Now Playing</h3>
+        <div class="hero-right">
+            <div class="card player-card">
+                <h3>Now Playing</h3>
 
-    <div class="now-playing-card">
-        <img id="np-art" src="media/image02.jpg">
+                <div class="now-playing-card">
+                    <img id="np-art" src="media/image02.jpg">
 
-        <div class="song-info">
-            <p id="np-title">Loading...</p>
-            <p id="np-artist">Please wait</p>
+                    <div class="song-info">
+                        <p id="np-title">Loading...</p>
+                        <p id="np-artist">Please wait</p>
 
-            <button id="play-btn" class="btn">▶ Play</button>
-            <input type="range" id="volume" min="0" max="1" step="0.01">
+                        <button id="play-btn" class="btn">▶ Play</button>
+                        <input type="range" id="volume" min="0" max="1" step="0.01">
+                    </div>
+                </div>
+
+                <audio id="radio-player" src="https://streaming.live365.com/a59069" preload="none"></audio>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <audio id="radio-player" src="https://streaming.live365.com/a59069" preload="none"></audio>
-</div>
+    <!-- MAIN GRID -->
+    <section class="home-grid">
 
-</div>
-</div>
-</section>
+        <!-- LEFT COLUMN -->
+        <div class="left-column">
 
-
-<!-- MAIN GRID -->
-<section class="home-grid">
-
-    <!-- LEFT COLUMN -->
-    <div class="left-column">
-
-        <div class="card">
-            <h3>Now Presenting</h3>
-            <p>AutoDJ</p>
-            <p>AutoDJ bringing you constant music, 24/7!</p>
-            <img src="media/image02.jpg" width="100">
-        </div>
+            <div class="card">
+                <h3>Now Presenting</h3>
+                <p>AutoDJ</p>
+                <p>AutoDJ bringing you constant music, 24/7!</p>
+                <img src="media/image02.jpg" width="100">
+            </div>
 
 <div class="recently-played-card">
     <h3>Recently Played</h3>
 
-    <div class="iframe-wrap tall">
-        <iframe 
-            src="https://live365.com/embeds/v1/played/a59069?s=sm&m=dark">
-        </iframe>
+    <div id="recent-list" class="recent-list">
+        <!-- JS will fill this -->
     </div>
 </div>
 
-    <!-- RIGHT COLUMN -->
-    <div class="right-column">
-
-        <div class="card">
-            <h3>Coming Up Next</h3>
-            <p>Stay tuned for upcoming shows and presenters.</p>
         </div>
 
-        <div class="card">
-            <h3>Join Us</h3>
-            <p>Be part of the community and connect with listeners.</p>
-            <a class="btn" href="https://discord.gg/37xPQp2Wrc" target="_blank">
-                Join Discord
-            </a>
+        <!-- RIGHT COLUMN -->
+        <div class="right-column">
+
+            <div class="card">
+                <h3>Coming Up Next</h3>
+                <p>Stay tuned for upcoming shows and presenters.</p>
+            </div>
+
+            <div class="card">
+                <h3>Join Us</h3>
+                <p>Be part of the community and connect with listeners.</p>
+
+                <a class="btn" href="https://discord.gg/37xPQp2Wrc" target="_blank">
+                    Join Discord
+                </a>
+            </div>
+
         </div>
 
-    </div>
-
-</section>
+    </section>
 
 </main>
 
 <footer>
     <p>Quantum Science Public Radio</p>
     <p>Everyday music, straight to your ears!</p>
-
-   <a href="privacy.html">Privacy Policy</a>
+    <a href="privacy.html">Privacy Policy</a>
 </footer>
 
+<!-- GLOBAL PLAYER -->
+<div id="global-player" class="global-player hidden">
+    <img id="gp-art" src="media/image02.jpg">
+
+    <div class="gp-info">
+        <span id="gp-title">Loading...</span>
+        <span id="gp-artist">...</span>
+    </div>
+
+    <button id="gp-play">▶</button>
+</div>
+
+<!-- SCRIPTS -->
 <script src="scripts/script.js"></script>
 <script type="module" src="scripts/speed-insights.js"></script>
-</body>
+
+<!-- PRIVACY POPUP -->
 <div id="privacyPopup" class="privacy-popup hidden">
     <p>
         We use basic data to run this site. Please review our 
@@ -126,4 +141,6 @@
     </p>
     <button id="acceptPrivacy">Got it</button>
 </div>
+
+</body>
 </html>

@@ -1,3 +1,5 @@
+let history = [];
+
 export default async function handler(req, res) {
     try {
         const response = await fetch("https://streaming.live365.com/a59069", {
@@ -9,20 +11,32 @@ export default async function handler(req, res) {
 
         const text = new TextDecoder().decode(value);
 
-        const match = text.match(/StreamTitle='([^']*)'/);
+        const match = text.match(/StreamTitle='(.*?)';/);
 
-        let artist = "AutoDJ";
-        let title = "Live Radio";
+        let title = "Unknown";
+        let artist = "Unknown";
 
-        if (match && match[1].includes(" - ")) {
+        if (match && match[1]) {
             const parts = match[1].split(" - ");
-            artist = parts[0];
-            title = parts[1];
+            artist = parts[0] || "Unknown";
+            title = parts[1] || parts[0] || "Unknown";
         }
 
-        res.status(200).json({ title, artist });
+        // ADD TO HISTORY (avoid duplicates spam)
+        if (!history.length || history[0].title !== title) {
+            history.unshift({ title, artist });
 
-    } catch {
-        res.status(500).json({ error: "ICY metadata failed" });
+            if (history.length > 10) {
+                history.pop();
+            }
+        }
+
+        res.status(200).json({
+            current: { title, artist },
+            history
+        });
+
+    } catch (e) {
+        res.status(500).json({ error: "Metadata failed" });
     }
 }

@@ -10,21 +10,52 @@ if (toggle) {
     toggle.addEventListener("click", () => {
         const current = document.documentElement.getAttribute("data-theme");
 
-        if (current === "dark") {
-            document.documentElement.setAttribute("data-theme", "light");
-            localStorage.setItem("theme", "light");
-        } else {
-            document.documentElement.setAttribute("data-theme", "dark");
-            localStorage.setItem("theme", "dark");
-        }
+        const next = current === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
     });
 }
 
 
-// EVERYTHING ELSE WAITS FOR PAGE LOAD
+// EVERYTHING ELSE
 document.addEventListener("DOMContentLoaded", () => {
 
-    // PRIVACY POPUP
+    // ===== GLOBAL PLAYER =====
+    const player = document.getElementById("radio-player");
+    const playBtn = document.getElementById("gp-play");
+    const globalBar = document.getElementById("global-player");
+
+    let isPlaying = localStorage.getItem("radioPlaying") === "true";
+
+    if (player && playBtn && globalBar) {
+        if (isPlaying) {
+            player.play().catch(() => {});
+            globalBar.classList.remove("hidden");
+            playBtn.textContent = "⏸";
+        }
+
+        playBtn.addEventListener("click", async () => {
+            try {
+                if (!isPlaying) {
+                    await player.play();
+                    playBtn.textContent = "⏸";
+                    isPlaying = true;
+                    localStorage.setItem("radioPlaying", "true");
+                    globalBar.classList.remove("hidden");
+                } else {
+                    player.pause();
+                    playBtn.textContent = "▶";
+                    isPlaying = false;
+                    localStorage.setItem("radioPlaying", "false");
+                }
+            } catch (err) {
+                console.log("Playback blocked:", err);
+            }
+        });
+    }
+
+
+    // ===== PRIVACY POPUP =====
     document.body.insertAdjacentHTML("beforeend", `
         <div id="privacyPopup" class="privacy-popup hidden">
             <p>
@@ -40,9 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const hasSeen = localStorage.getItem("privacySeen");
 
-    if (hasSeen || window.location.pathname.includes("privacy.html")) {
-        popup.classList.add("hidden");
-    } else {
+    if (!hasSeen && !window.location.pathname.includes("privacy.html")) {
         popup.classList.remove("hidden");
 
         acceptBtn.addEventListener("click", () => {
@@ -56,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // TEAM FILTERS (SAFE CHECK)
+    // ===== TEAM FILTERS =====
     const filterButtons = document.querySelectorAll(".team-filters button");
     const cards = document.querySelectorAll(".team-card");
 
@@ -71,50 +100,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 cards.forEach(card => {
                     const categories = card.dataset.category.split(" ");
 
-                    if (filter === "all" || categories.includes(filter)) {
-                        card.style.display = "block";
-                    } else {
-                        card.style.display = "none";
-                    }
+                    card.style.display =
+                        filter === "all" || categories.includes(filter)
+                            ? "block"
+                            : "none";
                 });
             });
         });
     }
 
 
-    // 🎧 RADIO PLAYER (FIXED + CLEAN)
-    const player = document.getElementById("radio-player");
-    const playBtn = document.getElementById("play-btn");
-    const volume = document.getElementById("volume");
-
-    if (player && playBtn) {
-        let isPlaying = false;
-
-        playBtn.addEventListener("click", async () => {
-            try {
-                if (!isPlaying) {
-                    await player.play();
-                    playBtn.textContent = "⏸ Pause";
-                    isPlaying = true;
-                } else {
-                    player.pause();
-                    playBtn.textContent = "▶ Play";
-                    isPlaying = false;
-                }
-            } catch (err) {
-                console.log("Playback blocked:", err);
-            }
-        });
-
-        if (volume) {
-            volume.addEventListener("input", () => {
-                player.volume = volume.value;
-            });
-        }
-    }
-
-
-    // 🎵 ALBUM ART FETCH
+    // ===== ALBUM ART =====
     async function getArtwork(title, artist) {
         try {
             const res = await fetch(
@@ -122,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
             );
             const data = await res.json();
 
-            if (data.results && data.results.length > 0) {
+            if (data.results?.length > 0) {
                 return data.results[0].artworkUrl100.replace("100x100", "300x300");
             }
         } catch {}
@@ -131,7 +127,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // 🎶 NOW PLAYING UPDATE
+    // ===== TIME FORMATTER =====
+    function formatTimeAgo(timestamp) {
+        const seconds = Math.floor((Date.now() - timestamp) / 1000);
+
+        if (seconds < 60) return "just now";
+        if (seconds < 3600) return Math.floor(seconds / 60) + " min ago";
+        if (seconds < 86400) return Math.floor(seconds / 3600) + " hr ago";
+
+        return Math.floor(seconds / 86400) + " day ago";
+    }
+
+
+    // ===== NOW PLAYING + RECENT =====
     async function updateNowPlaying() {
         try {
             const res = await fetch("/api/nowplaying");
@@ -141,16 +149,63 @@ document.addEventListener("DOMContentLoaded", () => {
             const artistEl = document.getElementById("np-artist");
             const artEl = document.getElementById("np-art");
 
-            if (!titleEl || !artistEl || !artEl) return;
+            const gpTitle = document.getElementById("gp-title");
+            const gpArtist = document.getElementById("gp-artist");
+            const gpArt = document.getElementById("gp-art");
 
-            titleEl.textContent = data.title;
-            artistEl.textContent = data.artist;
+            const recentContainer = document.getElementById("recent-list");
 
-            const art = await getArtwork(data.title, data.artist);
-            artEl.src = art;
+            if (!data.current) return;
 
-        } catch {
-            console.log("Now playing failed");
+            const { title, artist } = data.current;
+
+            if (titleEl) titleEl.textContent = title;
+            if (artistEl) artistEl.textContent = artist;
+
+            if (gpTitle) gpTitle.textContent = title;
+            if (gpArtist) gpArtist.textContent = artist;
+
+            const art = await getArtwork(title, artist);
+
+            if (artEl) artEl.src = art;
+            if (gpArt) gpArt.src = art;
+
+            // ===== RECENTLY PLAYED WITH TIME =====
+            if (recentContainer && data.history) {
+                recentContainer.innerHTML = "";
+
+                let timeMap = JSON.parse(localStorage.getItem("songTimes")) || {};
+
+                for (let i = 1; i < data.history.length; i++) {
+                    const song = data.history[i];
+                    const key = song.title + "|" + song.artist;
+
+                    if (!timeMap[key]) {
+                        timeMap[key] = Date.now();
+                    }
+
+                    const artwork = await getArtwork(song.title, song.artist);
+
+                    const item = document.createElement("div");
+                    item.className = "recent-item";
+
+                    item.innerHTML = `
+                        <img src="${artwork}">
+                        <div>
+                            <p class="song-title">${song.title}</p>
+                            <p class="song-artist">${song.artist}</p>
+                            <p class="song-time">${formatTimeAgo(timeMap[key])}</p>
+                        </div>
+                    `;
+
+                    recentContainer.appendChild(item);
+                }
+
+                localStorage.setItem("songTimes", JSON.stringify(timeMap));
+            }
+
+        } catch (err) {
+            console.log("Now playing failed", err);
         }
     }
 
