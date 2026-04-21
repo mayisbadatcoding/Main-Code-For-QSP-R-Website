@@ -1,3 +1,4 @@
+// THEME TOGGLE
 const toggle = document.getElementById("themeToggle");
 
 const savedTheme = localStorage.getItem("theme");
@@ -18,8 +19,12 @@ if (toggle) {
         }
     });
 }
+
+
+// EVERYTHING ELSE WAITS FOR PAGE LOAD
 document.addEventListener("DOMContentLoaded", () => {
-    // Inject popup into page
+
+    // PRIVACY POPUP
     document.body.insertAdjacentHTML("beforeend", `
         <div id="privacyPopup" class="privacy-popup hidden">
             <p>
@@ -37,92 +42,119 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (hasSeen || window.location.pathname.includes("privacy.html")) {
         popup.classList.add("hidden");
-        return;
+    } else {
+        popup.classList.remove("hidden");
+
+        acceptBtn.addEventListener("click", () => {
+            localStorage.setItem("privacySeen", "true");
+            popup.classList.add("hidden");
+        });
+
+        popup.querySelector("a").addEventListener("click", () => {
+            localStorage.setItem("privacySeen", "true");
+        });
     }
 
-    popup.classList.remove("hidden");
 
-    acceptBtn.addEventListener("click", () => {
-        localStorage.setItem("privacySeen", "true");
-        popup.classList.add("hidden");
-    });
+    // TEAM FILTERS (SAFE CHECK)
+    const filterButtons = document.querySelectorAll(".team-filters button");
+    const cards = document.querySelectorAll(".team-card");
 
-    // clicking the link also counts
-    popup.querySelector("a").addEventListener("click", () => {
-        localStorage.setItem("privacySeen", "true");
-    });
-});
+    if (filterButtons.length > 0) {
+        filterButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelector(".team-filters .active")?.classList.remove("active");
+                btn.classList.add("active");
 
-const filterButtons = document.querySelectorAll(".team-filters button");
-const cards = document.querySelectorAll(".team-card");
+                const filter = btn.dataset.filter;
 
-filterButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        document.querySelector(".team-filters .active").classList.remove("active");
-        btn.classList.add("active");
+                cards.forEach(card => {
+                    const categories = card.dataset.category.split(" ");
 
-        const filter = btn.dataset.filter;
+                    if (filter === "all" || categories.includes(filter)) {
+                        card.style.display = "block";
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+            });
+        });
+    }
 
-        cards.forEach(card => {
-            const categories = card.dataset.category.split(" ");
 
-            if (filter === "all" || categories.includes(filter)) {
-                card.style.display = "block";
-            } else {
-                card.style.display = "none";
+    // 🎧 RADIO PLAYER (FIXED + CLEAN)
+    const player = document.getElementById("radio-player");
+    const playBtn = document.getElementById("play-btn");
+    const volume = document.getElementById("volume");
+
+    if (player && playBtn) {
+        let isPlaying = false;
+
+        playBtn.addEventListener("click", async () => {
+            try {
+                if (!isPlaying) {
+                    await player.play();
+                    playBtn.textContent = "⏸ Pause";
+                    isPlaying = true;
+                } else {
+                    player.pause();
+                    playBtn.textContent = "▶ Play";
+                    isPlaying = false;
+                }
+            } catch (err) {
+                console.log("Playback blocked:", err);
             }
         });
-    });
-});
 
-const player = document.getElementById("radioPlayer");
-const playBtn = document.getElementById("playBtn");
-const volume = document.getElementById("volume");
-
-playBtn.onclick = () => {
-    if (player.paused) {
-        player.play();
-        playBtn.textContent = "⏸";
-    } else {
-        player.pause();
-        playBtn.textContent = "▶";
-    }
-};
-
-volume.oninput = () => {
-    player.volume = volume.value;
-};
-
-async function getArtwork(title, artist) {
-    try {
-        const res = await fetch(
-            `https://itunes.apple.com/search?term=${encodeURIComponent(artist + " " + title)}&limit=1`
-        );
-        const data = await res.json();
-
-        if (data.results && data.results.length > 0) {
-            return data.results[0].artworkUrl100.replace("100x100", "300x300");
+        if (volume) {
+            volume.addEventListener("input", () => {
+                player.volume = volume.value;
+            });
         }
-    } catch {}
-
-    return "media/image02.jpg";
-}
-
-async function updateNowPlaying() {
-    try {
-        const res = await fetch("/api/nowplaying");
-        const data = await res.json();
-
-        document.getElementById("np-title").textContent = data.title;
-        document.getElementById("np-artist").textContent = data.artist;
-
-        const art = await getArtwork(data.title, data.artist);
-        document.getElementById("np-art").src = art;
-
-    } catch {
-        console.log("Now playing failed");
     }
-}
 
-setInterval(updateNowPlaying, 10000);
-updateNowPlaying();
+
+    // 🎵 ALBUM ART FETCH
+    async function getArtwork(title, artist) {
+        try {
+            const res = await fetch(
+                `https://itunes.apple.com/search?term=${encodeURIComponent(artist + " " + title)}&limit=1`
+            );
+            const data = await res.json();
+
+            if (data.results && data.results.length > 0) {
+                return data.results[0].artworkUrl100.replace("100x100", "300x300");
+            }
+        } catch {}
+
+        return "media/image02.jpg";
+    }
+
+
+    // 🎶 NOW PLAYING UPDATE
+    async function updateNowPlaying() {
+        try {
+            const res = await fetch("/api/nowplaying");
+            const data = await res.json();
+
+            const titleEl = document.getElementById("np-title");
+            const artistEl = document.getElementById("np-artist");
+            const artEl = document.getElementById("np-art");
+
+            if (!titleEl || !artistEl || !artEl) return;
+
+            titleEl.textContent = data.title;
+            artistEl.textContent = data.artist;
+
+            const art = await getArtwork(data.title, data.artist);
+            artEl.src = art;
+
+        } catch {
+            console.log("Now playing failed");
+        }
+    }
+
+    setInterval(updateNowPlaying, 10000);
+    updateNowPlaying();
+
+});

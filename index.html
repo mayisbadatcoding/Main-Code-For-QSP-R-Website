@@ -41,29 +41,23 @@
     </div>
 
     <div class="hero-right">
-      <div class="card player-card">
+    <div class="card player-card">
     <h3>Now Playing</h3>
 
-<div class="now-playing-card">
+    <div class="now-playing-card">
+        <img id="np-art" src="media/image02.jpg">
 
-    <img src="media/image02.jpg" class="song-cover">
+        <div class="song-info">
+            <p id="np-title">Loading...</p>
+            <p id="np-artist">Please wait</p>
 
-    <div class="song-info">
-        <h3>Live Radio</h3>
-        <p>Quantum Science Public Radio</p>
-<div class="now-playing-card">
-    <img id="np-art" src="media/image02.jpg">
-    <div>
-        <p id="np-title">Loading...</p>
-        <p id="np-artist">Please wait</p>
-    </div>
-</div>
-        <div class="controls">
-            <button id="playBtn">▶</button>
+            <button id="play-btn" class="btn">▶ Play</button>
             <input type="range" id="volume" min="0" max="1" step="0.01">
-            
         </div>
     </div>
+
+    <audio id="radio-player" src="https://streaming.live365.com/a59069" preload="none"></audio>
+</div>
 
 </div>
 </div>
