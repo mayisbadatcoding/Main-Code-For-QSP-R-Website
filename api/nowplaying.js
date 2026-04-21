@@ -3,21 +3,25 @@ export default async function handler(req, res) {
         const response = await fetch("https://live365.com/station/a59069");
         const html = await response.text();
 
-        const match = html.match(/"nowPlaying":({.*?})/);
+        // Extract Next.js data blob
+        const jsonMatch = html.match(/<script id="__NEXT_DATA__" type="application\/json">(.*?)<\/script>/);
 
-        if (!match) {
+        if (!jsonMatch) {
             return res.status(200).json({ title: "Live Radio" });
         }
 
-        const nowPlaying = JSON.parse(match[1]);
+        const data = JSON.parse(jsonMatch[1]);
+
+        // Navigate structure (this may vary slightly)
+        const now = data?.props?.pageProps?.station?.nowPlaying;
 
         res.status(200).json({
-            title: nowPlaying.title,
-            artist: nowPlaying.artist,
-            artwork: nowPlaying.artworkUrl
+            title: now?.title || "Live Radio",
+            artist: now?.artist || "AutoDJ",
+            artwork: now?.artworkUrl || null
         });
 
     } catch (err) {
-        res.status(500).json({ error: "Failed to scrape metadat" });
+        res.status(500).json({ error: "Failed to parse metadata" });
     }
 }
