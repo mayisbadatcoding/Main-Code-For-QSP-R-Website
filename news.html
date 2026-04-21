@@ -2,27 +2,104 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Quantum Science Public Radio</title>
+    <title>News | Quantum Science Public Radio</title>
+
     <link rel="stylesheet" href="assets/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Parkinsans&display=swap" rel="stylesheet">
+
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head>
+
 <body>
 
-<header>
-	
-	<button id="themeToggle">Toggle Theme</button>
-    <h1>Quantum Science Public Radio</h1>
-    <p class="tagline">Everyday music, straight to your ears!</p>
+<header class="navbar">
+    <div class="nav-left">
+        <h1 class="logo-text">Quantum<span>.</span></h1>
+    </div>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="contact.html">Contact</a>
-        <a href="helpers.html">Helpers of QSP-R</a>
-        <a href="team.html">Team</a>
-        <a href="secondaryradio.html">Secondary Radio</a>
+    <nav class="nav-center">
+        <a href="index.html">home</a>
+        <a href="team.html">team</a>
+        <a href="contact.html">contact</a>
+         <a href="news.html" class="active">news</a>
     </nav>
+
+    <div class="nav-right">
+        <button id="themeToggle">Theme</button>
+        <img src="media/image01.jpg" class="nav-logo">
+    </div>
 </header>
 
-<script type="module" src="scripts/speed-insights.js"></script>
+<main>
+
+    <!-- PAGE HEADER -->
+    <section class="hero">
+        <div class="hero-left">
+            <h1>Station News</h1>
+            <p>Updates, announcements, and everything happening at Quantum Science Public Radio.</p>
+        </div>
+    </section>
+
+
+    <!-- NEWS LIST -->
+    <section class="news-container">
+
+        <!-- NEWS ITEM -->
+        <div class="news-card">
+            <p class="news-date">April 2026</p>
+            <h3>Website Upgrade Complete</h3>
+            <p>
+                Version 2 of the Quantum Science Public Radio website is now live,
+                bringing improved performance, a custom player, and a cleaner design. Our new live player now includes real-time metadata, album artwork,
+                and a recently played system.
+            </p>
+        </div>
+
+        <!-- NEWS ITEM -->
+        <div class="news-card">
+            <span class="tag-important">IMPORTANT</span>
+
+            <p class="news-date">April 2026</p>
+            <h3><b>QSP-R will become.. different?</b></h3>
+            <p>
+                we're changing. we are rebranding and renaming. we won't spoil it yet.. but just stay tuned. :salute:
+            </p>
+        </div>
+
+                <div class="news-card">
+            <p class="news-date">April 2026</p>
+            <h3><b>secondary radio dismantle</b></h3>
+            <p>
+                salutations! we are removing secondary radio as of the newest update pushed 7:30 AM EST 4/21/2026 due to any country being able to listen to the radio now. lets all cheer!
+            </p>
+        </div>
+
+        <!-- ADD MORE BELOW -->
+
+    </section>
+
+</main>
+
+<footer>
+    <p>Quantum Science Public Radio</p>
+    <p>Everyday music, straight to your ears!</p>
+
+    <a href="privacy.html">Privacy Policy</a>
+</footer>
+
+<script src="scripts/script.js"></script>
+
+<div id="global-player" class="global-player hidden">
+    <img id="gp-art" src="media/image02.jpg">
+    
+    <div class="gp-info">
+        <span id="gp-title">Loading...</span>
+        <span id="gp-artist">...</span>
+    </div>
+
+    <button id="gp-play">▶</button>
+</div>
+
+<audio id="radio-player" src="https://streaming.live365.com/a59069" preload="none"></audio>
 </body>
 </html>
