@@ -1,29 +1,30 @@
 export default async function handler(req, res) {
     try {
-        const response = await fetch("https://streaming.live365.com/a59069/stats?json=1");
-        const data = await response.json();
+        const response = await fetch("https://streaming.live365.com/a59069", {
+            headers: {
+                "Icy-MetaData": "1"
+            }
+        });
 
-        // THIS is where your issue was — wrong fields
-        const titleRaw = data?.current_track || "Live Radio";
+        const reader = response.body.getReader();
+        const { value } = await reader.read();
 
-        // Split "Artist - Title"
+        const text = new TextDecoder().decode(value);
+
+        const match = text.match(/StreamTitle='([^']*)'/);
+
         let artist = "AutoDJ";
         let title = "Live Radio";
 
-        if (titleRaw.includes(" - ")) {
-            const parts = titleRaw.split(" - ");
+        if (match && match[1].includes(" - ")) {
+            const parts = match[1].split(" - ");
             artist = parts[0];
             title = parts[1];
-        } else {
-            title = titleRaw;
         }
 
-        res.status(200).json({
-            title,
-            artist
-        });
+        res.status(200).json({ title, artist });
 
-    } catch (error) {
-        res.status(500).json({ error: "Metadata failed" });
+    } catch (err) {
+        res.status(500).json({ error: "ICY metadata failed" });
     }
 }
