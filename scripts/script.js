@@ -52,3 +52,25 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("privacySeen", "true");
     });
 });
+
+const filterButtons = document.querySelectorAll(".team-filters button");
+const cards = document.querySelectorAll(".team-card");
+
+filterButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelector(".team-filters .active").classList.remove("active");
+        btn.classList.add("active");
+
+        const filter = btn.dataset.filter;
+
+        cards.forEach(card => {
+            const categories = card.dataset.category.split(" ");
+
+            if (filter === "all" || categories.includes(filter)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+});

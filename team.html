@@ -4,26 +4,35 @@
     <meta charset="UTF-8">
     <title>Quantum Science Public Radio</title>
     <link rel="stylesheet" href="assets/main.css">
+	<link href="https://fonts.googleapis.com/css2?family=Parkinsans&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header>
-	<button id="themeToggle">Toggle Theme</button>
-    <h1>Quantum Science Public Radio</h1>
-    <p class="tagline">Everyday music, straight to your ears!</p>
+<header class="navbar">
+    <div class="nav-left">
+        <h1 class="logo-text">Quantum<span>.</span></h1>
+    </div>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="contact.html">Contact</a>
-        <a href="helpers.html">Helpers of QSP-R</a>
-        <a href="team.html">Team</a>
-        <a href="secondaryradio.html">Secondary Radio</a>
+    <nav class="nav-center">
+        <a href="index.html">home</a>
+        <a href="team.html" class="active">team</a>
+        <a href="secondaryradio.html">secondary radio</a>
+        <a href="contact.html">contact</a>
     </nav>
 
-    <div class="logo">
-        <img src="media/image01.jpg" alt="Company Logo">
+    <div class="nav-right">
+        <button id="themeToggle">Theme</button>
+        <img src="media/image01.jpg" class="nav-logo">
     </div>
 </header>
+
+<div class="team-filters">
+    <button class="active" data-filter="all">all</button>
+    <button data-filter="management">management</button>
+    <button data-filter="presenters">presenters</button>
+    <button data-filter="web">web developers</button>
+    <button data-filter="recognized">recognized</button>
+</div>
 
 <main>
     <!-- PAGE CONTENT GOES HERE -->
@@ -32,14 +41,89 @@
     <p>The people who bring YOU the music you enjoy!</p>
 </div>
 
-<div class="card">
-    <img src="media/image03.jpg" width="120">
-    <h3>May</h3>
-    <p>I do things!</p>
-    <p><strong>I do not work at QSP</strong></p>
-</div>
-</main>
+<div class="team-grid">
 
+    <div class="team-card" data-category="management web presenters">
+        <img src="media/image03.jpg" class="profile-img">
+        <h3>May</h3>
+        <p>woah i made qsp-r. but im not staff at qsp</p>
+        <span class="badge pronoun">she/her</span>
+
+			        <div class="team-links">
+            <a href="https://github.com/mayisbadatcoding" target="_blank" class="icon github">
+                <img src="media/github.svg" alt="GitHub">
+            </a>
+        </div>
+    </div>
+
+    <div class="team-card" data-category="web recognized">
+        <img src="media/imacat_playsgames.gif" class="profile-img">
+        <h3>Imacat_PlaysGames</h3>
+        <p>Ctis a kitty cat</p>
+
+        <div class="team-links">
+            <a href="https://github.com/Imacat-PlaysGames" target="_blank" class="icon github">
+                <img src="media/github.svg" alt="GitHub">
+            </a>
+
+            <a href="https://eilioimacat.xyz/" target="_blank" class="icon website">
+                <img src="media/website.svg" alt="Website">
+            </a>
+        </div>
+
+        <span class="badge pronoun">he/him</span>
+    </div>
+
+    <div class="team-card" data-category="recognized">
+        <img src="media/sgii2.gif" class="profile-img">
+        <h3>SGII2</h3>
+        <p>
+            is a clanker
+        </p>
+
+        <div class="team-links">
+            <a href="https://github.com/RealSGII2" target="_blank" class="icon github">
+                <img src="media/github.svg" alt="GitHub">
+            </a>
+
+            <a href="https://realsgii2.dev/" target="_blank" class="icon website">
+                <img src="media/website.svg" alt="Website">
+            </a>
+        </div>
+
+        <span class="badge pronoun">it/its</span>
+    </div>
+
+    <div class="team-card" data-category="recognized">
+        <img src="media/soniadiscrete.png" class="profile-img">
+        <h3>Soniadiscrete</h3>
+        <p>
+            Helped with code for the station during the early stages of development.
+        </p>
+        <span class="badge pronoun">she/her</span>
+    </div>
+
+	    <div class="team-card" data-category="web recognized">
+        <img src="media/colddreams.png" class="profile-img">
+        <h3>ColdDreams</h3>
+        <p>
+           super font person
+        </p>
+
+		        <div class="team-links">
+            <a href="https://github.com/colddreamss" target="_blank" class="icon github">
+                <img src="media/github.svg" alt="GitHub">
+            </a>
+
+            <a href="https://colddreamss.github.io" target="_blank" class="icon website">
+                <img src="media/website.svg" alt="Website">
+            </a>
+        </div>
+
+        <span class="badge pronoun">she/they</span>
+    </div>
+
+</div>
 <footer>
     <p>Quantum Science Public Radio</p>
     <p>Everyday music, straight to your ears!</p>
