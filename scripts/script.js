@@ -9,15 +9,14 @@ if (savedTheme) {
 if (toggle) {
     toggle.addEventListener("click", () => {
         const current = document.documentElement.getAttribute("data-theme");
-
         const next = current === "dark" ? "light" : "dark";
+
         document.documentElement.setAttribute("data-theme", next);
         localStorage.setItem("theme", next);
     });
 }
 
 
-// EVERYTHING ELSE
 document.addEventListener("DOMContentLoaded", () => {
 
     // ===== GLOBAL PLAYER =====
@@ -28,7 +27,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let isPlaying = localStorage.getItem("radioPlaying") === "true";
 
     if (player && playBtn && globalBar) {
+
+        // Restore previous session
         if (isPlaying) {
+            if (!player.src) {
+                player.src = "https://streaming.live365.com/a59069";
+            }
+
             player.play().catch(() => {});
             globalBar.classList.remove("hidden");
             playBtn.textContent = "⏸";
@@ -36,6 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         playBtn.addEventListener("click", async () => {
             try {
+                // 🔥 Lazy load stream ONLY when needed
+                if (!player.src) {
+                    player.src = "https://streaming.live365.com/a59069";
+                }
+
                 if (!isPlaying) {
                     await player.play();
                     playBtn.textContent = "⏸";
@@ -48,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     isPlaying = false;
                     localStorage.setItem("radioPlaying", "false");
                 }
+
             } catch (err) {
                 console.log("Playback blocked:", err);
             }
@@ -127,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ===== TIME FORMATTER =====
+    // ===== TIME FORMAT =====
     function formatTimeAgo(timestamp) {
         const seconds = Math.floor((Date.now() - timestamp) / 1000);
 
@@ -145,6 +156,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const res = await fetch("/api/nowplaying");
             const data = await res.json();
 
+            if (!data.current) return;
+
+            const { title, artist } = data.current;
+
             const titleEl = document.getElementById("np-title");
             const artistEl = document.getElementById("np-artist");
             const artEl = document.getElementById("np-art");
@@ -154,10 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const gpArt = document.getElementById("gp-art");
 
             const recentContainer = document.getElementById("recent-list");
-
-            if (!data.current) return;
-
-            const { title, artist } = data.current;
 
             if (titleEl) titleEl.textContent = title;
             if (artistEl) artistEl.textContent = artist;
@@ -170,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (artEl) artEl.src = art;
             if (gpArt) gpArt.src = art;
 
-            // ===== RECENTLY PLAYED WITH TIME =====
+            // RECENT TRACKS
             if (recentContainer && data.history) {
                 recentContainer.innerHTML = "";
 
@@ -209,7 +220,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    setInterval(updateNowPlaying, 10000);
+    
+    setInterval(updateNowPlaying, 30000);
     updateNowPlaying();
 
 });
