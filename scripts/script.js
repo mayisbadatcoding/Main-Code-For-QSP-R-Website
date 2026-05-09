@@ -121,7 +121,7 @@ async function loadFurryAvatars(furryGrid) {
 
             div.innerHTML = `
                 <img src="${data.avatar}">
-                <span>${data.username}</span>
+                <span>${data.username || "Unknown User"}</span>
             `;
 
             furryGrid.appendChild(div);
@@ -133,39 +133,76 @@ async function loadFurryAvatars(furryGrid) {
 }
 
 // ================= TEAM PAGE AVATARS =================
-document.addEventListener("DOMContentLoaded", async () => {
-
+document.addEventListener("DOMContentLoaded", () => {
     const cards = document.querySelectorAll(".team-card");
 
-    for (const card of cards) {
+    cards.forEach(async card => {
         const discordId = card.dataset.discord;
-        if (!discordId) continue;
+        if (!discordId) return;
 
         const img = card.querySelector(".profile-img");
+        if (!img) return;
+
+        let loaded = false;
+
+        img.classList.add("avatar-loading");
+        img.removeAttribute("src");
+
+        const warning = document.createElement("p");
+        warning.className = "avatar-warning";
+        warning.textContent =
+            "You are not meant to see this! Please try refreshing the page or check your connection. If this keeps happening, contact support.";
+
+        const showWarning = () => {
+            if (loaded) return;
+
+            img.style.display = "none";
+
+            if (!card.querySelector(".avatar-warning")) {
+                card.appendChild(warning);
+            }
+        };
+
+       const timeout = setTimeout(showWarning, 10000);
 
         try {
             const res = await fetch(`/api/discord?user=${discordId}`);
-            const data = await res.json();
 
-            if (data.avatar) {
-              img.src = data.avatar;
-
-img.onload = () => {
-  img.classList.remove("avatar-loading");
-};
-                img.style.opacity = "0";
-                img.style.transition = "opacity 0.3s ease";
-
-                setTimeout(() => {
-                    img.style.opacity = "1";
-                }, 50);
+            if (!res.ok) {
+                throw new Error("Discord API request failed");
             }
 
-        } catch {
-            console.log("avatar load failed for", discordId);
-        }
-    }
+            const data = await res.json();
 
+            if (!data.avatar) {
+                throw new Error("No avatar returned");
+            }
+
+            img.onload = () => {
+                loaded = true;
+                clearTimeout(timeout);
+
+                img.classList.remove("avatar-loading");
+                img.style.display = "";
+                img.style.opacity = "1";
+
+                const existingWarning = card.querySelector(".avatar-warning");
+                if (existingWarning) existingWarning.remove();
+            };
+
+            img.onerror = () => {
+                clearTimeout(timeout);
+                showWarning();
+            };
+
+            img.src = data.avatar;
+
+        } catch (err) {
+            clearTimeout(timeout);
+            showWarning();
+            console.log("avatar load failed for", discordId, err);
+        }
+    });
 });
 
 // ================= TEAM MODAL =================
@@ -209,7 +246,6 @@ document.addEventListener("DOMContentLoaded", () => {
             modal.classList.remove("active");
         }
     };
-
 });
 
 // ================= TEAM FILTERS =================
@@ -238,47 +274,4 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
-
-});
-
-// ================= AVATAR LOAD WATCHDOG =================
-// avatar fallback checker
-document.querySelectorAll(".profile-img").forEach((img) => {
-    const card = img.closest(".team-card");
-    let replaced = false;
-
-    // detect when avatar changes from default
-    const observer = new MutationObserver(() => {
-        if (!img.src.includes("/embed/avatars/")) {
-            replaced = true;
-
-            // remove warning if avatar loads later
-            const existingWarning = card.querySelector(".avatar-warning");
-            if (existingWarning) {
-                existingWarning.remove();
-            }
-        }
-    });
-
-    observer.observe(img, {
-        attributes: true,
-        attributeFilter: ["src"]
-    });
-
-    // after 5 seconds, if still default -> show warning
-    setTimeout(() => {
-        if (!replaced && img.src.includes("/embed/avatars/")) {
-
-            // avoid duplicate warning
-            if (card.querySelector(".avatar-warning")) return;
-
-            const warning = document.createElement("p");
-            warning.className = "avatar-warning";
-
-            warning.textContent =
-                "This is not supposed to happen! Please refresh your browser or check your connection. If the problem persists, contact us.";
-
-            card.appendChild(warning);
-        }
-    }, 10000);
 });
