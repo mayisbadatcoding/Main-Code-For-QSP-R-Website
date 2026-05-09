@@ -1,12 +1,13 @@
 export default async function handler(req, res) {
-    const { id } = req.query;
+    const userId = req.query.user;
 
-    if (!id) {
+    if (!userId) {
         return res.status(400).json({ error: "Missing user ID" });
     }
 
     try {
-        const response = await fetch(`https://discord.com/api/v10/users/${id}`, {
+        // fetch user from Discord API
+        const response = await fetch(`https://discord.com/api/v10/users/${userId}`, {
             headers: {
                 Authorization: `Bot ${process.env.DISCORD_TOKEN}`
             }
@@ -16,20 +17,24 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: "Failed to fetch user" });
         }
 
-        const data = await response.json();
+        const user = await response.json();
 
-const isAnimated = data.avatar && data.avatar.startsWith("a_");
+        if (!user.avatar) {
+            return res.status(200).json({
+                avatar: `https://cdn.discordapp.com/embed/avatars/${user.discriminator % 5}.png`
+            });
+        }
 
-const avatarUrl = data.avatar
-    ? `https://cdn.discordapp.com/avatars/${id}/${data.avatar}.${isAnimated ? "gif" : "png"}?size=256`
-    : `https://cdn.discordapp.com/embed/avatars/${parseInt(data.discriminator || 0) % 5}.png`;
+        const isGif = user.avatar.startsWith("a_");
+
+        const avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${isGif ? "gif" : "png"}?size=256`;
 
         res.status(200).json({
-            username: data.username,
-            avatar: avatarUrl
+            avatar: avatarUrl,
+            username: user.username
         });
 
     } catch (err) {
-        res.status(500).json({ error: "Discord fetch failed" });
+        res.status(500).json({ error: "Server error" });
     }
 }
