@@ -18,9 +18,11 @@ export default async function handler(req, res) {
 
         const data = await response.json();
 
-        const avatarUrl = data.avatar
-            ? `https://cdn.discordapp.com/avatars/${id}/${data.avatar}.png?size=256`
-            : `https://cdn.discordapp.com/embed/avatars/${parseInt(data.discriminator) % 5}.png`;
+const isAnimated = data.avatar && data.avatar.startsWith("a_");
+
+const avatarUrl = data.avatar
+    ? `https://cdn.discordapp.com/avatars/${id}/${data.avatar}.${isAnimated ? "gif" : "png"}?size=256`
+    : `https://cdn.discordapp.com/embed/avatars/${parseInt(data.discriminator || 0) % 5}.png`;
 
         res.status(200).json({
             username: data.username,
