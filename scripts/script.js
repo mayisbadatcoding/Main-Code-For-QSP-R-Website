@@ -225,3 +225,18 @@ document.addEventListener("DOMContentLoaded", () => {
     updateNowPlaying();
 
 });
+
+async function loadDiscordAvatar(id, elementId) {
+    try {
+        const res = await fetch(`/api/discord?id=${id}`);
+        const data = await res.json();
+
+        document.getElementById(elementId).src = data.avatar;
+    } catch (err) {
+        console.log("Avatar failed");
+    }
+}
+
+// SGII2
+
+loadDiscordAvatar("258706134850863106", "sgii2-avatar");
