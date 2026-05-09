@@ -2002,3 +2002,10 @@ body::after {
     text-align: center;
     opacity: 0.85;
 }
+.avatar-loading {
+  opacity: 0;
+}
+
+.profile-img {
+  transition: opacity 0.2s ease;
+}

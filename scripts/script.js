@@ -148,8 +148,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             const data = await res.json();
 
             if (data.avatar) {
-                img.src = data.avatar;
+              img.src = data.avatar;
 
+img.onload = () => {
+  img.classList.remove("avatar-loading");
+};
                 img.style.opacity = "0";
                 img.style.transition = "opacity 0.3s ease";
 
