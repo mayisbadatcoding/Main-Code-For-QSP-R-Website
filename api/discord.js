@@ -27,11 +27,13 @@ export default async function handler(req, res) {
         const user = await response.json();
 
         // Default avatar if user has no custom avatar
+        res.setHeader(
+  "Cache-Control",
+  "s-maxage=3600, stale-while-revalidate=86400"
+);
         if (!user.avatar) {
             return res.status(200).json({
-                avatar: `https://cdn.discordapp.com/embed/avatars/${
-                    user.discriminator % 5
-                }.png`
+avatar: "https://cdn.discordapp.com/embed/avatars/0.png"
             });
         }
 

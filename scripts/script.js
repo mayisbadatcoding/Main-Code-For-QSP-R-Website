@@ -239,41 +239,43 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ================= AVATAR LOAD WATCHDOG =================
-document.addEventListener("DOMContentLoaded", () => {
+// avatar fallback checker
+document.querySelectorAll(".profile-img").forEach((img) => {
+    const card = img.closest(".team-card");
+    let replaced = false;
 
-    const DEFAULT_AVATAR = "https://cdn.discordapp.com/embed/avatars/0.png";
+    // detect when avatar changes from default
+    const observer = new MutationObserver(() => {
+        if (!img.src.includes("/embed/avatars/")) {
+            replaced = true;
 
-    document.querySelectorAll(".team-card").forEach(card => {
-        const img = card.querySelector(".profile-img");
-        if (!img) return;
-
-        let replaced = false;
-
-        // mark as replaced when src changes away from default
-        const observer = new MutationObserver(() => {
-            if (img.src !== DEFAULT_AVATAR) {
-                replaced = true;
-                observer.disconnect();
+            // remove warning if avatar loads later
+            const existingWarning = card.querySelector(".avatar-warning");
+            if (existingWarning) {
+                existingWarning.remove();
             }
-        });
-
-        observer.observe(img, { attributes: true, attributeFilter: ["src"] });
-
-        // after 5 seconds, if still default → show warning
-        setTimeout(() => {
-            if (!replaced && img.src.includes("/embed/avatars/")) {
-
-                // avoid duplicating message
-                if (card.querySelector(".avatar-warning")) return;
-
-                const warning = document.createElement("p");
-                warning.className = "avatar-warning";
-                warning.textContent =
-                    "Avatar failed to load. This may be our fault or Discord's. Please try refreshing the page.";
-
-                card.appendChild(warning);
-            }
-        }, 5000);
+        }
     });
 
+    observer.observe(img, {
+        attributes: true,
+        attributeFilter: ["src"]
+    });
+
+    // after 5 seconds, if still default -> show warning
+    setTimeout(() => {
+        if (!replaced && img.src.includes("/embed/avatars/")) {
+
+            // avoid duplicate warning
+            if (card.querySelector(".avatar-warning")) return;
+
+            const warning = document.createElement("p");
+            warning.className = "avatar-warning";
+
+            warning.textContent =
+                "This is not supposed to happen! Please refresh your browser or check your connection. If the problem persists, contact us.";
+
+            card.appendChild(warning);
+        }
+    }, 10000);
 });
