@@ -56,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ================= CHAOS MODE =================
 document.addEventListener("DOMContentLoaded", () => {
-
     const chaosBtn = document.getElementById("chaosBtn");
     const errorContent = document.getElementById("errorContent");
     const chaosMode = document.getElementById("chaosMode");
@@ -66,16 +65,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!chaosBtn) return;
 
-    chaosBtn.addEventListener("click", async () => {
-        // show chaos
+    chaosBtn.addEventListener("click", () => {
         errorContent.classList.add("hidden");
         chaosMode.classList.remove("hidden");
 
-        // load both
         loadCats(catGrid);
         loadFurryAvatars(furryGrid);
     });
-
 });
 
 // ================= CAT API =================
@@ -100,17 +96,17 @@ async function loadCats(catGrid) {
     }
 }
 
-// ================= DISCORD AVATARS =================
+// ================= DISCORD AVATARS (404 PAGE) =================
 async function loadFurryAvatars(furryGrid) {
     if (!furryGrid) return;
 
     const members = [
-        { id: "258706134850863106" }, // SGII2
-        { id: "690720906590552094" }, // cat
-        { id: "1092162323021566103" }, // May
-        { id: "652250448631431170" }, // Cold
-        { id: "815652645443993650" }, // Sonia
-        { id: "1092896609295138837" } // Lola
+        { id: "258706134850863106" },
+        { id: "690720906590552094" },
+        { id: "1092162323021566103" },
+        { id: "652250448631431170" },
+        { id: "815652645443993650" },
+        { id: "1092896609295138837" }
     ];
 
     furryGrid.innerHTML = "";
@@ -135,3 +131,149 @@ async function loadFurryAvatars(furryGrid) {
         }
     }
 }
+
+// ================= TEAM PAGE AVATARS =================
+document.addEventListener("DOMContentLoaded", async () => {
+
+    const cards = document.querySelectorAll(".team-card");
+
+    for (const card of cards) {
+        const discordId = card.dataset.discord;
+        if (!discordId) continue;
+
+        const img = card.querySelector(".profile-img");
+
+        try {
+            const res = await fetch(`/api/discord?user=${discordId}`);
+            const data = await res.json();
+
+            if (data.avatar) {
+                img.src = data.avatar;
+
+                img.style.opacity = "0";
+                img.style.transition = "opacity 0.3s ease";
+
+                setTimeout(() => {
+                    img.style.opacity = "1";
+                }, 50);
+            }
+
+        } catch {
+            console.log("avatar load failed for", discordId);
+        }
+    }
+
+});
+
+// ================= TEAM MODAL =================
+document.addEventListener("DOMContentLoaded", () => {
+
+    const modal = document.getElementById("profileModal");
+    const modalImg = document.getElementById("modalImg");
+    const modalName = document.getElementById("modalName");
+    const modalDesc = document.getElementById("modalDesc");
+    const modalRole = document.getElementById("modalRole");
+    const modalLinks = document.getElementById("modalLinks");
+    const modalPronoun = document.getElementById("modalPronoun");
+    const modalClose = document.getElementById("modalClose");
+
+    if (!modal) return;
+
+    document.querySelectorAll(".team-card").forEach(card => {
+        card.onclick = function (e) {
+
+            if (e.target.closest("a")) return;
+
+            modalImg.src = this.querySelector(".profile-img")?.src || "";
+            modalName.textContent = this.querySelector("h3")?.textContent || "";
+
+            modalDesc.textContent = this.dataset.modalDesc || "";
+            modalRole.textContent = this.dataset.modalRole || "";
+            modalPronoun.textContent = this.dataset.modalPronouns || "";
+
+            modalLinks.innerHTML = "";
+            const links = this.querySelector(".team-links");
+            if (links) modalLinks.innerHTML = links.innerHTML;
+
+            modal.classList.add("active");
+        };
+    });
+
+    modalClose.onclick = () => modal.classList.remove("active");
+
+    modal.onclick = (e) => {
+        if (e.target === modal) {
+            modal.classList.remove("active");
+        }
+    };
+
+});
+
+// ================= TEAM FILTERS =================
+document.addEventListener("DOMContentLoaded", () => {
+
+    const filterButtons = document.querySelectorAll(".team-filters button");
+    const filterCards = document.querySelectorAll(".team-card");
+
+    if (!filterButtons.length) return;
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.querySelector(".team-filters .active").classList.remove("active");
+            btn.classList.add("active");
+
+            const filter = btn.dataset.filter;
+
+            filterCards.forEach(card => {
+                const categories = card.dataset.category.split(" ");
+
+                if (filter === "all" || categories.includes(filter)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        });
+    });
+
+});
+
+// ================= AVATAR LOAD WATCHDOG =================
+document.addEventListener("DOMContentLoaded", () => {
+
+    const DEFAULT_AVATAR = "https://cdn.discordapp.com/embed/avatars/0.png";
+
+    document.querySelectorAll(".team-card").forEach(card => {
+        const img = card.querySelector(".profile-img");
+        if (!img) return;
+
+        let replaced = false;
+
+        // mark as replaced when src changes away from default
+        const observer = new MutationObserver(() => {
+            if (img.src !== DEFAULT_AVATAR) {
+                replaced = true;
+                observer.disconnect();
+            }
+        });
+
+        observer.observe(img, { attributes: true, attributeFilter: ["src"] });
+
+        // after 5 seconds, if still default → show warning
+        setTimeout(() => {
+            if (!replaced && img.src.includes("/embed/avatars/")) {
+
+                // avoid duplicating message
+                if (card.querySelector(".avatar-warning")) return;
+
+                const warning = document.createElement("p");
+                warning.className = "avatar-warning";
+                warning.textContent =
+                    "Avatar failed to load. This may be our fault or Discord's. Please try refreshing the page.";
+
+                card.appendChild(warning);
+            }
+        }, 5000);
+    });
+
+});

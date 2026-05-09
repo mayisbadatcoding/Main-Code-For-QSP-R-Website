@@ -2,32 +2,44 @@ export default async function handler(req, res) {
     const userId = req.query.user;
 
     if (!userId) {
-        return res.status(400).json({ error: "Missing user ID" });
+        return res.status(400).json({
+            error: "Missing user ID"
+        });
     }
 
     try {
-        // fetch user from Discord API
-        const response = await fetch(`https://discord.com/api/v10/users/${userId}`, {
-            headers: {
-                Authorization: `Bot ${process.env.DISCORD_TOKEN}`
+        // Fetch user from Discord API
+        const response = await fetch(
+            `https://discord.com/api/v10/users/${userId}`,
+            {
+                headers: {
+                    Authorization: `Bot ${process.env.DISCORD_TOKEN}`
+                }
             }
-        });
+        );
 
         if (!response.ok) {
-            return res.status(500).json({ error: "Failed to fetch user" });
+            return res.status(500).json({
+                error: "Failed to fetch user"
+            });
         }
 
         const user = await response.json();
 
+        // Default avatar if user has no custom avatar
         if (!user.avatar) {
             return res.status(200).json({
-                avatar: `https://cdn.discordapp.com/embed/avatars/${user.discriminator % 5}.png`
+                avatar: `https://cdn.discordapp.com/embed/avatars/${
+                    user.discriminator % 5
+                }.png`
             });
         }
 
         const isGif = user.avatar.startsWith("a_");
 
-        const avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${isGif ? "gif" : "png"}?size=256`;
+        const avatarUrl =
+            `https://cdn.discordapp.com/avatars/${user.id}/` +
+            `${user.avatar}.${isGif ? "gif" : "png"}?size=256`;
 
         res.status(200).json({
             avatar: avatarUrl,
@@ -35,6 +47,8 @@ export default async function handler(req, res) {
         });
 
     } catch (err) {
-        res.status(500).json({ error: "Server error" });
+        res.status(500).json({
+            error: "Server error"
+        });
     }
 }
