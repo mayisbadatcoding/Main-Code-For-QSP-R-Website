@@ -1,165 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Quantum Science Public Radio</title>
-    <link rel="icon" href="media/image01.jpg">
-    <link rel="stylesheet" href="assets/main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Parkinsans&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Team • Quantum Radio</title>
+
+    <link rel="icon" href="media/image01.jpg" />
+    <link rel="stylesheet" href="assets/main.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head>
-<body>
 
+<body>
 <header class="navbar">
     <div class="nav-left">
-        <h1 class="logo-text">Quantum<span>.</span></h1>
+        <a class="logo-text" href="index.html">quantumradio<span>.</span></a>
     </div>
 
     <nav class="nav-center">
-        <a href="index.html">home</a>
-        <a href="team.html" class="active">team</a>
+        <a href="index.html" class="active">home</a>
+        <a href="team.html">team</a>
         <a href="contact.html">contact</a>
         <a href="news.html">news</a>
     </nav>
 
-    <div class="nav-right">
-        <button id="themeToggle">Theme</button>
-        <img src="media/image01.jpg" class="nav-logo">
-    </div>
+    <a class="status-link" href="https://status.ope674c.dev" target="_blank">status</a>
 </header>
 
-<div class="team-filters">
-    <button class="active" data-filter="all">all</button>
-    <button data-filter="management">management</button>
-    <button data-filter="presenters">presenters</button>
-    <button data-filter="web">web developers</button>
-    <button data-filter="recognized">recognized</button>
-</div>
-
 <main>
-<div class="card">
-    <h2>Team</h2>
-    <p>The people who bring YOU the music you enjoy!</p>
-</div>
+    <section class="page-hero">
+        <p class="eyebrow">Team</p>
+        <h1>The people behind Quantum Radio.</h1>
+        <p>The people who bring you the music you enjoy.</p>
+    </section>
 
-<div class="team-grid">
+    <div class="team-filters">
+        <button class="active" data-filter="all">all</button>
+        <button data-filter="management">management</button>
+        <button data-filter="presenters">presenters</button>
+        <button data-filter="web">web developers</button>
+        <button data-filter="recognized">recognized</button>
+    </div>
 
-    <!-- MAY -->
-    <div class="team-card"
-         data-category="management web presenters"
-         data-discord="1092162323021566103"
-         data-modal-desc="hiyo! im may, the founder of qsp-r. i primarily present and do web development! i pay the bills for the station. it hurts."
-         data-modal-role="payer of bills"
-         data-modal-pronouns="she/her">
-        <img src="https://cdn.discordapp.com/embed/avatars/0.png" data-user="1092162323021566103" class="profile-img avatar-loading">
-        <h3>May</h3>
-        <p>woah i made qsp-r. but im not staff at qsp also mraowwww</p>
+    <section class="team-grid">
+        <div class="team-card"
+             data-category="management web presenters"
+             data-discord="1092162323021566103"
+             data-modal-desc="hiyo! im may, the founder of quantum radio. i primarily present and do web development! i pay the bills for the station. it hurts."
+             data-modal-role="payer of bills"
+             data-modal-pronouns="she/her">
+            <img src="https://cdn.discordapp.com/embed/avatars/0.png" data-user="1092162323021566103" class="profile-img avatar-loading" alt="May">
+            <h3>May</h3>
+            <p>Founder, presenter, and web developer for Quantum Radio.</p>
 
-        <div class="team-links">
-            <a href="https://github.com/mayisbadatcoding" target="_blank">
-                <img src="media/github.svg">
-            </a>
+            <div class="team-links">
+                <a href="https://github.com/mayisbadatcoding" target="_blank">
+                    <img src="media/github.svg" alt="GitHub">
+                </a>
+                <a href="https://colddreamss.github.io" target="_blank">
+                    <img src="media/website.svg" alt="Website">
+                </a>
+            </div>
         </div>
-    </div>
 
-    <!-- IMACAT -->
-    <div class="team-card"
-         data-category="web recognized"
-         data-discord="690720906590552094"
-         data-modal-desc="is a kitty cat and barely does anything but is still recognized because they did one thing on our website."
-         data-modal-role="website development and company cat"
-         data-modal-pronouns="he/him">
-         <img src="https://cdn.discordapp.com/embed/avatars/0.png" data-user="690720906590552094" class="profile-img avatar-loading">
-         
-        <h3>Imacat_PlaysGames</h3>
-        <p>tis a kitty cat</p>
+        <div class="team-card"
+             data-category="web recognized"
+             data-discord="690720906590552094"
+             data-modal-desc="is a kitty cat and barely does anything but is still recognized because they did one thing on our website."
+             data-modal-role="website development and company cat"
+             data-modal-pronouns="he/him">
+            <img src="https://cdn.discordapp.com/embed/avatars/0.png" data-user="690720906590552094" class="profile-img avatar-loading" alt="Imacat_PlaysGames">
 
-        <div class="team-links">
-            <a href="https://github.com/Imacat-PlaysGames" target="_blank">
-                <img src="media/github.svg">
-            </a>
+            <h3>Imacat_PlaysGames</h3>
+            <p>Website help and company cat.</p>
 
-            <a href="https://eilioimacat.xyz/" target="_blank">
-                <img src="media/website.svg">
-            </a>
+            <div class="team-links">
+                <a href="https://github.com/Imacat-PlaysGames" target="_blank">
+                    <img src="media/github.svg" alt="GitHub">
+                </a>
+
+                <a href="https://eilioimacat.xyz/" target="_blank">
+                    <img src="media/website.svg" alt="Website">
+                </a>
+            </div>
         </div>
-    </div>
 
-    <!-- SGII2 -->
-    <div class="team-card"
-         data-category="recognized"
-         data-discord="258706134850863106"
-         data-modal-desc="helped may a lot with the website in the beginning stages of development."
-         data-modal-role="company clanker and former website development"
-         data-modal-pronouns="it/its">
-        <img src="https://cdn.discordapp.com/embed/avatars/0.png" data-user="258706134850863106" class="profile-img avatar-loading">
+        <div class="team-card"
+             data-category="recognized"
+             data-discord="258706134850863106"
+             data-modal-desc="helped may a lot with the website in the beginning stages of development."
+             data-modal-role="company clanker and former website development"
+             data-modal-pronouns="it/its">
+            <img src="https://cdn.discordapp.com/embed/avatars/0.png" data-user="258706134850863106" class="profile-img avatar-loading" alt="SGII2">
 
-        <h3>SGII2</h3>
-        <p>is a clanker</p>
+            <h3>SGII2</h3>
+            <p>Recognized for early website help.</p>
 
-        <div class="team-links">
-            <a href="https://github.com/RealSGII2" target="_blank">
-                <img src="media/github.svg">
-            </a>
+            <div class="team-links">
+                <a href="https://github.com/RealSGII2" target="_blank">
+                    <img src="media/github.svg" alt="GitHub">
+                </a>
 
-            <a href="https://realsgii2.dev/" target="_blank">
-                <img src="media/website.svg">
-            </a>
+                <a href="https://realsgii2.dev/" target="_blank">
+                    <img src="media/website.svg" alt="Website">
+                </a>
+            </div>
         </div>
-    </div>
 
-    <!-- SONIA -->
-    <div class="team-card"
-         data-category="recognized"
-         data-discord="815652645443993650"
-         data-modal-desc="sonia... sonia... (helped with code in a vc with me and helped when i was a baby developer)"
-         data-modal-role="catgirl and former website development"
-         data-modal-pronouns="she/her">
-         <img src="https://cdn.discordapp.com/embed/avatars/0.png" data-user="815652645443993650" class="profile-img avatar-loading">
+        <div class="team-card"
+             data-category="recognized"
+             data-discord="815652645443993650"
+             data-modal-desc="sonia... sonia... (helped with code in a vc with me and helped when i was a baby developer)"
+             data-modal-role="catgirl and former website development"
+             data-modal-pronouns="she/her">
+            <img src="https://cdn.discordapp.com/embed/avatars/0.png" data-user="815652645443993650" class="profile-img avatar-loading" alt="Soniadiscrete">
 
-        <h3>Soniadiscrete</h3>
-        <p>Helped with code for the station during the early stages of development.</p>
-    </div>
-
-    <!-- COLD -->
-    <div class="team-card"
-         data-category="web recognized"
-         data-discord="652250448631431170"
-         data-modal-desc="helped with fonts so theyre cool"
-         data-modal-role="company font finder"
-         data-modal-pronouns="she/they">
-        <img src="https://cdn.discordapp.com/embed/avatars/0.png" data-user="652250448631431170" class="profile-img avatar-loading">
-
-        <h3>ColdDreams</h3>
-        <p>super font person</p>
-
-        <div class="team-links">
-            <a href="https://github.com/colddreamss" target="_blank">
-                <img src="media/github.svg">
-            </a>
-
-            <a href="https://colddreamss.github.io" target="_blank">
-                <img src="media/website.svg">
-            </a>
+            <h3>Soniadiscrete</h3>
+            <p>Helped with code for the station during the early stages of development.</p>
         </div>
-    </div>
 
-</div>
+        <div class="team-card"
+             data-category="web recognized"
+             data-discord="652250448631431170"
+             data-modal-desc="helped with fonts so theyre cool"
+             data-modal-role="company font finder"
+             data-modal-pronouns="she/they">
+            <img src="https://cdn.discordapp.com/embed/avatars/0.png" data-user="652250448631431170" class="profile-img avatar-loading" alt="ColdDreams">
+
+            <h3>ColdDreams</h3>
+            <p>Font help and recognized website support.</p>
+
+            <div class="team-links">
+                <a href="https://github.com/colddreamss" target="_blank">
+                    <img src="media/github.svg" alt="GitHub">
+                </a>
+
+                <a href="https://colddreamss.github.io" target="_blank">
+                    <img src="media/website.svg" alt="Website">
+                </a>
+            </div>
+        </div>
+    </section>
 </main>
 
 <footer>
-    <p>Quantum Science Public Radio</p>
-    <p>Everyday music, straight to your ears!</p>
+    <p>Quantum Radio</p>
+    <p>Everyday music, straight to your ears.</p>
     <a href="privacy.html">Privacy Policy</a>
 </footer>
 
-<!-- MODAL -->
 <div id="profileModal" class="profile-modal">
     <div class="profile-modal-content">
-
         <span id="modalClose" class="modal-close">✖</span>
 
-        <img id="modalImg" class="modal-img">
+        <img id="modalImg" class="modal-img" alt="Profile image">
 
         <h2 id="modalName"></h2>
         <p id="modalRole"></p>
@@ -168,10 +164,10 @@
         <div id="modalLinks"></div>
 
         <span id="modalPronoun" class="badge pronoun"></span>
-
     </div>
 </div>
 
 <script src="scripts/script.js"></script>
+<script type="module" src="scripts/speed-insights.js"></script>
 </body>
 </html>

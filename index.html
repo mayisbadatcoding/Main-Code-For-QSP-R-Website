@@ -1,125 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Quantum Science Public Radio</title>
-    <link rel="icon" href="media/image01.jpg">
-    <link rel="stylesheet" href="assets/main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Parkinsans&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Quantum Radio</title>
+
+    <link rel="icon" href="media/favicon.png">
+    <link rel="stylesheet" href="assets/main.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head>
 
 <body>
-
 <header class="navbar">
     <div class="nav-left">
-        <h1 class="logo-text">Quantum<span>.</span></h1>
+        <a class="logo-text" href="index.html">quantumradio<span>.</span></a>
     </div>
 
     <nav class="nav-center">
         <a href="index.html" class="active">home</a>
         <a href="team.html">team</a>
         <a href="contact.html">contact</a>
-         <a href="news.html">news</a>
+        <a href="news.html">news</a>
     </nav>
 
-    <div class="nav-right">
-        <button id="themeToggle">Theme</button>
-        <img src="media/image01.jpg" class="nav-logo">
-    </div>
+    <a class="status-link" href="https://status.ope674c.dev" target="_blank">status</a>
 </header>
 
 <main>
-
-    <!-- HERO -->
     <section class="hero">
         <div class="hero-left">
-            <h1>Everyday music, straight to your ears!</h1>
-            <p>Streaming nonstop music, powered by Quantum Science Public Radio.</p>
+            <p class="eyebrow">Quantum Radio</p>
+            <h1>Everyday music, straight to your ears.</h1>
+            <p>
+                Quantum Radio is an online station built for nonstop music, live metadata,
+                clean presentation, and a smoother listener experience.
+            </p>
 
             <div class="hero-buttons">
-                <a class="btn" href="findme.html" target="_blank">Click Me?</a>
+                <button id="play-btn" class="btn">▶ Listen Live</button>
                 <a class="btn secondary" href="team.html">Meet the Team</a>
             </div>
         </div>
 
         <div class="hero-right">
-            <div class="card player-card">
-                <h3>Now Playing</h3>
+            <section class="player-card">
+                <span class="card-label">Now Playing</span>
 
                 <div class="now-playing-card">
-                    <img id="np-art" src="media/image02.jpg">
+                    <img id="np-art" src="media/image02.jpg" alt="Album artwork" />
 
                     <div class="song-info">
                         <p id="np-title">Loading...</p>
                         <p id="np-artist">Please wait</p>
 
-                        <button id="play-btn" class="btn">▶ Play</button>
-                        <input type="range" id="volume" min="0" max="1" step="0.01">
+                        <label class="volume-label">
+                            Volume
+                            <input type="range" id="volume" min="0" max="1" step="0.01" value="0.7" />
+                        </label>
                     </div>
                 </div>
-
-                <audio id="radio-player" preload="none"></audio>
-            </div>
+            </section>
         </div>
     </section>
 
-    <!-- MAIN GRID -->
     <section class="home-grid">
-
-        <!-- LEFT COLUMN -->
-        <div class="left-column">
-
-            <div class="card">
-                <h3>Now Presenting</h3>
-                <p>AutoDJ</p>
-                <p>AutoDJ bringing you constant music, 24/7!</p>
-                <img src="media/image02.jpg" width="100">
-            </div>
-
-<div class="recently-played-card">
-    <h3>Recently Played</h3>
-
-    <div id="recent-list" class="recent-list">
-        <!-- JS will fill this -->
-    </div>
-</div>
-
+        <div class="panel">
+            <span class="card-label">Station</span>
+            <h2>Now Presenting</h2>
+            <p class="big-text">AutoDJ</p>
+            <p>AutoDJ keeps Quantum Radio moving with constant music, 24/7.</p>
         </div>
 
-        <!-- RIGHT COLUMN -->
-        <div class="right-column">
-
-            <div class="card">
-                <h3>Coming Up Next</h3>
-                <p>Stay tuned for upcoming shows and presenters.</p>
-            </div>
-
-            <div class="card">
-                <h3>Join Us</h3>
-                <p>Be part of the community and connect with listeners.</p>
-
-                <a class="btn" href="https://discord.gg/37xPQp2Wrc" target="_blank">
-                    Join Discord
-                </a>
-            </div>
-
+        <div class="panel">
+            <span class="card-label">Community</span>
+            <h2>Join Us</h2>
+            <p>Connect with listeners, staff, presenters, and the wider Quantum Radio community.</p>
+            <a class="btn" href="https://discord.gg/37xPQp2Wrc" target="_blank">Join Discord</a>
         </div>
 
+        <div class="panel wide">
+            <span class="card-label">Recently Played</span>
+            <h2>Latest tracks</h2>
+            <div id="recent-list" class="recent-list"></div>
+        </div>
     </section>
-
 </main>
 
 <footer>
-    <p>Quantum Science Public Radio</p>
-    <p>Everyday music, straight to your ears!</p>
+    <p>Quantum Radio</p>
+    <p>Everyday music, straight to your ears.</p>
     <a href="privacy.html">Privacy Policy</a>
 </footer>
 
-<!-- GLOBAL PLAYER -->
 <div id="global-player" class="global-player hidden">
-    <img id="gp-art" src="media/image02.jpg">
+    <img id="gp-art" src="media/image02.jpg" alt="Album artwork" />
 
     <div class="gp-info">
         <span id="gp-title">Loading...</span>
@@ -129,18 +106,9 @@
     <button id="gp-play">▶</button>
 </div>
 
-<!-- SCRIPTS -->
+<audio id="radio-player" src="https://streaming.live365.com/a59069" preload="none"></audio>
+
 <script src="scripts/script.js"></script>
 <script type="module" src="scripts/speed-insights.js"></script>
-
-<!-- PRIVACY POPUP -->
-<div id="privacyPopup" class="privacy-popup hidden">
-    <p>
-        We use basic data to run this site. Please review our 
-        <a href="privacy.html">Privacy Policy</a>.
-    </p>
-    <button id="acceptPrivacy">Got it</button>
-</div>
-
 </body>
 </html>

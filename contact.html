@@ -1,71 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Quantum Science Public Radio</title>
-    <link rel="stylesheet" href="assets/main.css">
-    <link rel="icon" href="media/image01.jpg">
-	<link href="https://fonts.googleapis.com/css2?family=Parkinsans&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Contact • Quantum Radio</title>
+
+    <link rel="icon" href="media/image01.jpg" />
+    <link rel="stylesheet" href="assets/main.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head>
-<body>
 
+<body>
 <header class="navbar">
     <div class="nav-left">
-        <h1 class="logo-text">Quantum<span>.</span></h1>
+        <a class="logo-text" href="index.html">quantumradio<span>.</span></a>
     </div>
 
- <nav class="nav-center">
-        <a href="index.html">home</a>
+    <nav class="nav-center">
+        <a href="index.html" class="active">home</a>
         <a href="team.html">team</a>
-        <a href="contact.html" class="active">contact</a>
-         <a href="news.html">news</a>
+        <a href="contact.html">contact</a>
+        <a href="news.html">news</a>
     </nav>
 
-    <div class="nav-right">
-        <button id="themeToggle">Theme</button>
-        <img src="media/image01.jpg" class="nav-logo">
-    </div>
+    <a class="status-link" href="https://status.ope674c.dev" target="_blank">status</a>
 </header>
 
 <main>
-    <!-- PAGE CONTENT GOES HERE -->
-	 <div class="card">
-    <h2>Contact Us</h2>
-    <p>Have an issue? Contact us below.</p>
-</div>
+    <section class="page-hero">
+        <p class="eyebrow">Contact</p>
+        <h1>Get in touch.</h1>
+        <p>Have an issue, question, report, or station-related message? Send it below.</p>
+    </section>
 
-<div class="card">
-    <h2>Contact Us</h2>
-    <p>Have an issue? Send us a message below.</p>
+    <section class="content-card">
+        <h2>Contact Quantum Radio</h2>
+        <p>Use this form for support, website issues, listener messages, or station questions.</p>
 
-    <form action="https://formspree.io/f/mjgjorze" method="POST">
+        <form action="https://formspree.io/f/mjgjorze" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required />
+            <input type="email" name="email" placeholder="Your Email" required />
+            <textarea name="message" placeholder="Your Message" required></textarea>
 
-        <input type="text" name="name" placeholder="Your Name" required>
+            <input type="text" name="_gotcha" style="display:none" />
 
-        <input type="email" name="email" placeholder="Your Email" required>
-
-        <textarea name="message" placeholder="Your Message" required></textarea>
-
-        <!-- Anti-spam (hidden field) -->
-        <input type="text" name="_gotcha" style="display:none">
-
-        <button type="submit">Send Message</button>
-    </form>
-</div>
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+    </section>
 </main>
 
 <footer>
-    <p>Quantum Science Public Radio</p>
-    <p>Everyday music, straight to your ears!</p>
-
+    <p>Quantum Radio</p>
+    <p>Everyday music, straight to your ears.</p>
     <a href="privacy.html">Privacy Policy</a>
 </footer>
-<script src="scripts/script.js"></script>
-<script type="module" src="scripts/speed-insights.js"></script>
+
 <div id="global-player" class="global-player hidden">
-    <img id="gp-art" src="media/image02.jpg">
-    
+    <img id="gp-art" src="media/image02.jpg" alt="Album artwork" />
+
     <div class="gp-info">
         <span id="gp-title">Loading...</span>
         <span id="gp-artist">...</span>
@@ -75,5 +70,8 @@
 </div>
 
 <audio id="radio-player" src="https://streaming.live365.com/a59069" preload="none"></audio>
+
+<script src="scripts/script.js"></script>
+<script type="module" src="scripts/speed-insights.js"></script>
 </body>
 </html>
